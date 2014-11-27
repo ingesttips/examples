@@ -1,0 +1,17 @@
+<workflow-app name="sqoop-to-hive" xmlns="uri:oozie:workflow:0.4">
+    <start to="sqoop2hive"/>
+    <action name="sqoop2hive">
+        <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <command>import --connect jdbc:mysql:///sqoop --username root --password root --table test --hive-import --hive-table test</command>
+            <file>/tmp/hive-site.xml#hive-site.xml</file>
+        </sqoop>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
