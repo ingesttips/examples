@@ -5,6 +5,7 @@
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
             <command>import --connect jdbc:mysql:///sqoop --username root --password root --table test --hive-import --hive-table test</command>
+	    <archive>/tmp/mysql-connector-java-5.1.31-bin.jar#mysql-connector-java-5.1.31-bin.jar</archive>
             <file>/tmp/hive-site.xml#hive-site.xml</file>
         </sqoop>
         <ok to="end"/>
