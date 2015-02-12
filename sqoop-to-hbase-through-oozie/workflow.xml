@@ -1,0 +1,25 @@
+<workflow-app name="sqoop-import-hbase" xmlns="uri:oozie:workflow:0.4">
+  <start to="sqoop-import"/>
+  <action name="sqoop-import">
+    <sqoop xmlns="uri:oozie:sqoop-action:0.2">
+      <job-tracker>${jobTracker}</job-tracker>
+      <name-node>${nameNode}</name-node>
+      <job-xml>/user/admin/hbase-site.xml</job-xml>
+      <command>import --connect jdbc:mysql://example.com/sqoop  --username test --password test --table test --hbase-table test --column-family cf --hbase-row-key id --hbase-create-table</command>
+      <file>/user/admin/mysql-connector-java-5.1.23.jar#mysql-connector-java-5.1.23.jar</file>
+      <file>/user/admin/hbase-client-0.98.6-cdh5.3.0.jar#hbase-client-0.98.6-cdh5.3.0.jar</file>
+      <file>/user/admin/hbase-common-0.98.6-cdh5.3.0.jar#hbase-common-0.98.6-cdh5.3.0.jar</file>
+      <file>/user/admin/hbase-protocol-0.98.6-cdh5.3.0.jar#hbase-protocol-0.98.6-cdh5.3.0.jar</file>
+      <file>/user/admin/htrace-core-2.04.jar#htrace-core-2.04.jar</file>
+      <file>/user/admin/hbase-server-0.98.6-cdh5.3.0.jar#hbase-server-0.98.6-cdh5.3.0.jar</file>
+      <file>/user/admin/hbase-hadoop-compat.jar#hbase-hadoop-compat.jar</file>
+      <file>/user/admin/high-scale-lib-1.1.1.jar#high-scale-lib-1.1.1.jar</file>
+    </sqoop>
+    <ok to="end"/>
+    <error to="kill"/>
+  </action>
+  <kill name="kill">
+    <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+  </kill>
+  <end name="end"/>
+</workflow-app>
